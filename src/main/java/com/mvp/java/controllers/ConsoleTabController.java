@@ -15,7 +15,7 @@ public class ConsoleTabController {
 
     @FXML private TextArea missionOverviewText;
     @FXML private ListView<String> missionsList;
-
+    
     private final MissionsService service = new MissionsService();
     private MainController mainController;
     
