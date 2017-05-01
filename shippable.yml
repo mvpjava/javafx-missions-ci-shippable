@@ -1,5 +1,3 @@
-## Java shippable YAML file
----
 language: java
 
 jdk: openjdk8
@@ -22,17 +20,17 @@ build:
     - echo "export PATH=$PATH:/usr/local/apache-maven-3.5.0/bin" >> $HOME/.bashrc
     - mkdir -p shippable/testresults
     - shippable_retry  mvn clean install
-    - ls -al $SHIPPABLE_BUILD_DIR/target
+ #   - ls -al $SHIPPABLE_BUILD_DIR/target
     - cp -r $SHIPPABLE_BUILD_DIR/target shippable/codecoverage
     - mkdir -p shippable/buildoutput
     - cp -r $SHIPPABLE_BUILD_DIR/target ./shippable/buildoutput
-    - ls -al ./shippable/buildoutput/target
+#    - ls -al ./shippable/buildoutput/target
 
     
   post_ci:
     #Commit the container only if you want all the artifacts from the CI step
-    - docker commit $SHIPPABLE_CONTAINER_NAME mvpjava/javafx_missions:latest
-    - ls -al ./shippable/buildoutput/target
+#    - docker commit $SHIPPABLE_CONTAINER_NAME mvpjava/javafx_missions:latest
+ #   - ls -al ./shippable/buildoutput/target
     - docker build -t mvpjava/javafx_missions:latest .
     - docker push mvpjava/javafx_missions:latest
 
@@ -43,4 +41,4 @@ integrations:
     
 notifications:
   email:
-    - mvpjava.email@gmail.com
+#    - your.email@gmail.com
