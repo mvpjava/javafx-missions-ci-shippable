@@ -45,7 +45,7 @@ public class ConsoleTabController {
                 
         try {
             missionInfo = service.getMissionInfo(selectedItem); 
-            getLog().appendText("Sucessfully retrieved mission info for " + selectedItem + "\n");
+            getLog().appendText("Sucessfully retrieved mission info for 2 " + selectedItem + "\n");
         } catch (IOException exception) {
             exception.printStackTrace (stackTraceWriter);
             getLog().appendText(stackTraceWriter.toString() + "\n");
