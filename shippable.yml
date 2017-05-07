@@ -1,0 +1,38 @@
+language: java
+
+jdk: openjdk8
+
+build:
+  
+  cache: true
+  cache_dir_list:
+    - /root/.m2
+    
+  pre_ci_boot:
+    image_name: mjalas/javafx
+    image_tag: latest
+    pull: true
+    
+  ci:
+    - sudo wget -q http://archive.apache.org/dist/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+    - sudo tar xzf apache-maven-3.5.0-bin.tar.gz -C /usr/local && rm -f apache-maven-3.5.0-bin.tar.gz
+    - ln -fs /usr/local/apache-maven-3.5.0/bin/mvn /usr/bin
+    - echo "export PATH=$PATH:/usr/local/apache-maven-3.5.0/bin" >> $HOME/.bashrc
+    - mkdir -p shippable/testresults
+    - shippable_retry  mvn clean install
+    - cp -r $SHIPPABLE_BUILD_DIR/target shippable/codecoverage
+    - mkdir -p shippable/buildoutput
+    - cp -r $SHIPPABLE_BUILD_DIR/target ./shippable/buildoutput
+    
+  post_ci:
+    - docker build -t mvpjava/javafx_missions:latest .
+    - docker push mvpjava/javafx_missions:latest
+
+integrations:
+  hub:
+    - integrationName: DockerHub
+      type: docker
+    
+notifications:
+  email:
+#    - your.email@gmail.com
